@@ -2,16 +2,21 @@ package com.deodev.PaymentServiceProvider.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
 @Data
 public class User {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue
+    @Column(columnDefinition = "uuid", updatable = false, nullable = false)
+    private UUID id;
+
+    @Column(nullable = false, unique = true)
+    private String username;
 
     @Column(nullable = false, unique = true)
     private String email;

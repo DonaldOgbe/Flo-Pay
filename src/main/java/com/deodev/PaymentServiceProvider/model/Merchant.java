@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "merchants")
@@ -12,8 +13,9 @@ import java.time.LocalDateTime;
 public class Merchant {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue
+    @Column(columnDefinition = "uuid", updatable = false, nullable = false)
+    private UUID id;
 
     @Column(nullable = false)
     private String name;
@@ -23,6 +25,9 @@ public class Merchant {
 
     @Column(name = "api_key", nullable = false, unique = true)
     private String apiKey;
+
+    @Column(nullable = true, unique = true)
+    private String supportEmail;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

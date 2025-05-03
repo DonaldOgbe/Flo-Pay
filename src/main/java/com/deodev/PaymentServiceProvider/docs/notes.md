@@ -10,5 +10,13 @@
 
 - Continue setting up the project
 - Updated the application.properties file and Connected to the database with a DatabaseInitializer class
-- 
+- Create Entities 
+
+# 03 - 05 - 2025
+
+- Created a UserRegistrationDTO
+- Created a mapper for User and the dto
+- Created a UserRepository
+- Created a Password encryptor class
+- Updated the id type in the Entities
 - 
