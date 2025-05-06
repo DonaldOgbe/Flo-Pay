@@ -1,13 +1,18 @@
 package com.deodev.PaymentServiceProvider.model;
 
+import com.deodev.PaymentServiceProvider.dto.UserRegistrationDTO;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
@@ -32,5 +37,18 @@ public class User {
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public User(UserRegistrationDTO dto) {
+        this.username = dto.getUsername();
+        this.email = dto.getEmail();
+        this.password = dto.getPassword();
+        this.firstName = dto.getFirstName();
+        this.lastName = dto.getLastName();
+    }
 
 }

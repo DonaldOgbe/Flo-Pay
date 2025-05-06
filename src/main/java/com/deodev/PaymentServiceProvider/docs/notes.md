@@ -19,4 +19,10 @@
 - Created a UserRepository
 - Created a Password encryptor class
 - Updated the id type in the Entities
-- 
+
+# 06 - 05 - 2025
+
+- Create User service
+- Create User Controller
+- Update dto and entity mapping
+- Made Register endpoint

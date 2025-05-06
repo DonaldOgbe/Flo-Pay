@@ -1,11 +1,13 @@
 package com.deodev.PaymentServiceProvider.dto;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserRegistrationDTO {
 
     @NotBlank(message = "Username cannot be blank")
