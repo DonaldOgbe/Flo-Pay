@@ -1,6 +1,5 @@
 package com.deodev.PaymentServiceProvider.model;
 
-import com.deodev.PaymentServiceProvider.dto.UserRegistrationDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -41,14 +40,6 @@ public class User {
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
-    }
-
-    public User(UserRegistrationDTO dto) {
-        this.username = dto.getUsername();
-        this.email = dto.getEmail();
-        this.password = dto.getPassword();
-        this.firstName = dto.getFirstName();
-        this.lastName = dto.getLastName();
     }
 
 }

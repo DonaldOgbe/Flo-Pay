@@ -4,6 +4,7 @@ package com.deodev.PaymentServiceProvider.service;
 import com.deodev.PaymentServiceProvider.dto.UserRegistrationDTO;
 import com.deodev.PaymentServiceProvider.model.User;
 import com.deodev.PaymentServiceProvider.repository.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,7 +28,7 @@ public class UserService {
             return ResponseEntity.badRequest().body("User name already exists");
         }
 
-        User user = new User(dto);
+        User user = new ObjectMapper().convertValue(dto, User.class);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 

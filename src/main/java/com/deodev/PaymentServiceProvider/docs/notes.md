@@ -26,3 +26,9 @@
 - Create User Controller
 - Update dto and entity mapping
 - Made Register endpoint
+
+# 07 - 05 - 2025 
+
+- Updated error message response
+- Created GlobalExceptionHandler to handle controller exceptions
+- Created custom response objects for json api response entity

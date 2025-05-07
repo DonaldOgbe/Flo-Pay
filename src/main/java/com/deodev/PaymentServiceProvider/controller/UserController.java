@@ -1,7 +1,6 @@
 package com.deodev.PaymentServiceProvider.controller;
 
 import com.deodev.PaymentServiceProvider.dto.UserRegistrationDTO;
-import com.deodev.PaymentServiceProvider.model.User;
 import com.deodev.PaymentServiceProvider.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +16,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> signup(@Valid @RequestBody UserRegistrationDTO dto, BindingResult result) {
-        if (result.hasErrors()) {
-            // If validation fails, return all errors in the response
-            return ResponseEntity.badRequest().body(result.getAllErrors());
-        }
-        System.out.println(dto.toString());
+    public ResponseEntity<?> signup(@Valid @RequestBody UserRegistrationDTO dto) {
         return  userService.register(dto);
     }
 
