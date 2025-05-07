@@ -2,6 +2,7 @@ package com.deodev.PaymentServiceProvider.service;
 
 
 import com.deodev.PaymentServiceProvider.dto.UserRegistrationDTO;
+import com.deodev.PaymentServiceProvider.exception.UserAlreadyExistsException;
 import com.deodev.PaymentServiceProvider.model.User;
 import com.deodev.PaymentServiceProvider.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,11 +22,11 @@ public class UserService {
 
     public ResponseEntity<?> register(UserRegistrationDTO dto) {
         if (userRepository.existsByEmail(dto.getEmail())) {
-            return ResponseEntity.badRequest().body("Email already exists");
+            throw new UserAlreadyExistsException("Email already exists");
         }
 
         if (userRepository.existsByUsername(dto.getUsername())) {
-            return ResponseEntity.badRequest().body("User name already exists");
+            throw new UserAlreadyExistsException("Username already exists");
         }
 
         User user = new ObjectMapper().convertValue(dto, User.class);
