@@ -32,3 +32,11 @@
 - Updated error message response
 - Created GlobalExceptionHandler to handle controller exceptions
 - Created custom response objects for json api response entity
+- Created custom exception to handle users already exists
+
+# 12 - 05 - 2025
+
+- Created the login endpoint :   
+Made a dto for user login details, made a handler and a custom exception for
+handling a user not found and incorrect details error, made updates to the controller and service.
+- 

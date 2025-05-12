@@ -8,6 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 public class GenericApiResponse<T> {
     private boolean success;
+    private String error;
     private String message;
     private T data;
 }

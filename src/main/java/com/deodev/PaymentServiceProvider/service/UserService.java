@@ -1,10 +1,13 @@
 package com.deodev.PaymentServiceProvider.service;
 
 
+import com.deodev.PaymentServiceProvider.dto.UserLoginDTO;
 import com.deodev.PaymentServiceProvider.dto.UserRegistrationDTO;
 import com.deodev.PaymentServiceProvider.exception.UserAlreadyExistsException;
+import com.deodev.PaymentServiceProvider.exception.UserNotFoundException;
 import com.deodev.PaymentServiceProvider.model.User;
 import com.deodev.PaymentServiceProvider.repository.UserRepository;
+import com.deodev.PaymentServiceProvider.response.GenericApiResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,5 +39,23 @@ public class UserService {
         userRepository.save(user);
 
         return ResponseEntity.ok("User register successfully");
+    }
+
+    public ResponseEntity<?> login(UserLoginDTO dto) {
+        User user;
+
+        if (userRepository.existsByUsername(dto.getUserLoginId())) {
+            user = userRepository.findByUsername(dto.getUserLoginId());
+        } else if (userRepository.existsByEmail(dto.getUserLoginId())) {
+            user = userRepository.findByEmail(dto.getUserLoginId());
+        } else {
+            throw  new UserNotFoundException("Please check username/email or password");
+        }
+
+        if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
+            throw  new UserNotFoundException("Please check username/email or password");
+        }
+
+        return ResponseEntity.ok("Login Successful");
     }
 }

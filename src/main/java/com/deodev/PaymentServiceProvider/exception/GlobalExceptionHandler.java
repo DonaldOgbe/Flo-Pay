@@ -23,20 +23,27 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.
                 badRequest().
-                body(new GenericApiResponse<>(false, "Validation Failed", errors));
+                body(new GenericApiResponse<>(false, "Validation Failed", "Invalid credentials", errors));
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<?> handleUserExist(UserAlreadyExistsException e) {
         return ResponseEntity.
                 status(HttpStatus.BAD_REQUEST).
-                body(new GenericApiResponse<>(false, e.getMessage(), null));
+                body(new GenericApiResponse<>(false, "Registration Failed", e.getMessage(), null));
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<?> handleUserNotFound(UserNotFoundException e) {
+        return ResponseEntity.
+                status(HttpStatus.BAD_REQUEST).
+                body(new GenericApiResponse<>(false, "Login Failed", e.getMessage(), null));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleGeneralException(Exception e) {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new GenericApiResponse<>(false, "An unexpected error occurred", e.getMessage()));
+                .body(new GenericApiResponse<>(false, "Failed", "An unexpected error occurred", e.getMessage()));
     }
 }
