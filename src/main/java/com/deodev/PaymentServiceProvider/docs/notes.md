@@ -39,4 +39,10 @@
 - Created the login endpoint :   
 Made a dto for user login details, made a handler and a custom exception for
 handling a user not found and incorrect details error, made updates to the controller and service.
-- 
+
+
+# 15 - 05 - 2025
+- Added new feature, an endpoint for verifying users after registration
+- Added a table verification_tokens for handling verification
+- Added services, for email and verification, and a custom exception for handling email
+- Added smtp in application properties and an env file for email connection

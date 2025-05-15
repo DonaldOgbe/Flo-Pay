@@ -10,21 +10,25 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @PostMapping("/register")
+    @PostMapping("/auth/register")
     public ResponseEntity<?> signup(@Valid @RequestBody UserRegistrationDTO dto) {
         return  userService.register(dto);
     }
 
-    @GetMapping("/login")
+    @GetMapping("/auth/login")
     public ResponseEntity<?> login(@Valid @RequestBody UserLoginDTO dto) {
         return userService.login(dto);
     }
 
+    @GetMapping("/confirm")
+    public ResponseEntity<?> verifyEmail(@RequestParam String token) {
+        return userService.verify(token);
+    }
 
 }

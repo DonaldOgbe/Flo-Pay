@@ -40,6 +40,13 @@ public class GlobalExceptionHandler {
                 body(new GenericApiResponse<>(false, "Login Failed", e.getMessage(), null));
     }
 
+    @ExceptionHandler(EmailSendingException.class)
+    public ResponseEntity<?> handleEmailNotSent(EmailSendingException e) {
+        return ResponseEntity.
+                status(HttpStatus.INTERNAL_SERVER_ERROR).
+                body(new GenericApiResponse<>(false, "Email Verification Failed", e.getMessage(), null));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleGeneralException(Exception e) {
         return ResponseEntity

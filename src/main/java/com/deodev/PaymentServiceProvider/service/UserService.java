@@ -6,9 +6,10 @@ import com.deodev.PaymentServiceProvider.dto.UserRegistrationDTO;
 import com.deodev.PaymentServiceProvider.exception.UserAlreadyExistsException;
 import com.deodev.PaymentServiceProvider.exception.UserNotFoundException;
 import com.deodev.PaymentServiceProvider.model.User;
+import com.deodev.PaymentServiceProvider.model.VerificationToken;
 import com.deodev.PaymentServiceProvider.repository.UserRepository;
-import com.deodev.PaymentServiceProvider.response.GenericApiResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,6 +20,12 @@ import org.springframework.stereotype.Service;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private VerificationTokenService verificationTokenService;
+
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -36,7 +43,10 @@ public class UserService {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
+        String token = verificationTokenService.createToken(savedUser);
+
+        emailService.sendEmail(user.getEmail(), token);
 
         return ResponseEntity.ok("User register successfully");
     }
@@ -57,5 +67,17 @@ public class UserService {
         }
 
         return ResponseEntity.ok("Login Successful");
+    }
+
+    public ResponseEntity<?> verify(String token) {
+        VerificationToken verificationToken = verificationTokenService.findById(token)
+                .orElseThrow(() -> new EntityNotFoundException("Token not found"));
+
+        User user = verificationToken.getUser();
+        user.setVerified(true);
+        userRepository.save(user);
+        verificationTokenService.delete(verificationToken);
+
+        return ResponseEntity.ok("User verified successfully");
     }
 }
